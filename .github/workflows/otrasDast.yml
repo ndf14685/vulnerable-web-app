@@ -1,0 +1,26 @@
+name: Otras Dast
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  nuclei-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Nuclei - DAST Scan
+        uses: projectdiscovery/nuclei-action@main
+        with:
+          target: 'https://nestor-fleitas2022.herokuapp.com'
+          github-report: true
+          github-token: ${{ secrets.TOKEN_FOR_G }}
+  stackhawk-hawkscan:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: stackhawk/hawkscan-action@v2.0.0
+      with:
+        apiKey: ${{ secrets.HAWK_API_KEY }}
+        configurationFiles: hawkscan.yml
